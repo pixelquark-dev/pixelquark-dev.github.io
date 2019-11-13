@@ -66,10 +66,17 @@
             platforms.create(50, 250, 'ground');
             platforms.create(750, 220, 'ground');
 
+            stars = this.physics.add.group({ key: 'star', repeat: 11, setXY: { x: 12, y: 0, stepX: 70 } });
+            stars.children.iterate(function (child) {
+                child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            });
+
             // Create the player object
             player = this.physics.add.sprite(100, 450, 'dude');
-            // Adding the colision physics between PLAYER and PLATFORMs
+            // Adding the colision physics between elements
             this.physics.add.collider(player, platforms);
+            this.physics.add.collider(stars, platforms);
+            this.physics.add.overlap(player, stars, collectStar, null, this);
             // Adding the little bouncing when PLAYER collide with ground
             player.setBounce(0.2);
             // Add collision with the canvas so the PLAYER doesn't fall into infinity
@@ -109,6 +116,10 @@
 
             // Movements functions for PLAYER sprite
             cursors = this.input.keyboard.createCursorKeys();
+
+            function collectStar(player, star) {
+                star.disableBody(true, true);
+            }
 
 
         }
