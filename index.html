@@ -141,6 +141,9 @@
             if (cursors.up.isDown && player.body.touching.down) {
                 player.setVelocityY(-330);
             }
+            if (cursors.down.isDown && !player.body.touching.down) {
+                player.setVelocityY(330);
+            }
         }
 
     </script>
